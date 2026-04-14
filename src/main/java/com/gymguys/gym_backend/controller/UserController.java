@@ -1,0 +1,49 @@
+package com.gymguys.gym_backend.controller;
+
+import com.gymguys.gym_backend.dto.ApiResponse;
+import com.gymguys.gym_backend.dto.ProfileUpdateRequest;
+import com.gymguys.gym_backend.entity.User;
+import com.gymguys.gym_backend.service.UserService;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/users")
+public class UserController {
+
+    private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
+    /**
+     * ✅ Update profile (only self)
+     */
+    @PutMapping("/{userId}")
+    public ApiResponse<User> updateProfile(@PathVariable Long userId,
+                                           @RequestBody ProfileUpdateRequest request,
+                                           Authentication authentication) {
+
+        User loggedInUser = userService.getByEmail(authentication.getName());
+
+        if (!loggedInUser.getId().equals(userId)) {
+            throw new RuntimeException("You can update only your own profile");
+        }
+
+        User updatedUser = userService.updateProfile(userId, request);
+
+        return new ApiResponse<>(true, "Profile updated successfully", updatedUser);
+    }
+
+    /**
+     * ✅ Get logged-in user profile
+     */
+    @GetMapping("/me")
+    public ApiResponse<User> getMyProfile(Authentication authentication) {
+
+        User user = userService.getByEmail(authentication.getName());
+
+        return new ApiResponse<>(true, "Profile fetched successfully", user);
+    }
+}
