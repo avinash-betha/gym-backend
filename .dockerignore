@@ -1,0 +1,21 @@
+target/
+.git/
+.gitignore
+.idea/
+.vscode/
+.env
+*.log
+HELP.md
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Docker / build extras
+docker-compose.yml
+
+# Maven wrapper cache (optional)
+.mvn/wrapper/maven-wrapper.jar
+
+# Prevent accidental jar copy
+*.jar
