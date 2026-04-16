@@ -227,7 +227,6 @@ public class AdminService {
         if (req.getWeight() != null) user.setWeight(req.getWeight());
         if (req.getSplitDays() != null) user.setSplitDays(req.getSplitDays());
         if (req.getProfileCompleted() != null) user.setProfileCompleted(req.getProfileCompleted());
-        if (req.getProfilePicUrl() != null) user.setProfilePicUrl(req.getProfilePicUrl());
 
         return userRepository.save(user);
     }

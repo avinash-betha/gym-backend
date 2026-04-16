@@ -3,7 +3,6 @@ package com.gymguys.gym_backend.dto;
 public class ProfileUpdateRequest {
 
     private Double weight;
-    private String profilePicUrl;
     private Integer splitDays;
 
     // 🔥 NEW FIELDS
@@ -22,14 +21,6 @@ public class ProfileUpdateRequest {
 
     public void setWeight(Double weight) {
         this.weight = weight;
-    }
-
-    public String getProfilePicUrl() {
-        return profilePicUrl;
-    }
-
-    public void setProfilePicUrl(String profilePicUrl) {
-        this.profilePicUrl = profilePicUrl;
     }
 
     public Integer getSplitDays() {

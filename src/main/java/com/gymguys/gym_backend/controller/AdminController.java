@@ -4,21 +4,16 @@ import java.util.List;
 import java.util.Map;
 
 import com.gymguys.gym_backend.dto.*;
+import com.gymguys.gym_backend.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.gymguys.gym_backend.entity.DailyWorkout;
 import com.gymguys.gym_backend.entity.User;
 import com.gymguys.gym_backend.entity.WorkoutConfig;
 import com.gymguys.gym_backend.service.AdminService;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api/admin")
@@ -27,9 +22,11 @@ public class AdminController {
     private static final Logger log = LoggerFactory.getLogger(AdminController.class);
 
     private final AdminService adminService;
+    private final UserService userService;
 
-    public AdminController(AdminService adminService) {
+    public AdminController(AdminService adminService, UserService userService) {
         this.adminService = adminService;
+        this.userService = userService;
     }
 
     // 1. GET /api/admin/users
@@ -119,5 +116,23 @@ public class AdminController {
         log.info("Admin: setting suspended={} for userId={}", suspended, id);
         return new ApiResponse<>(true, "User suspension updated",
                 adminService.setSuspended(id, suspended));
+    }
+
+    @PostMapping("/users/{id}/profile-pic")
+    public ApiResponse<User> uploadUserProfilePic(
+            @PathVariable Long id,
+            @RequestParam("file") MultipartFile file) {
+
+        log.info("Admin uploading profile pic for userId={}", id);
+
+        User updatedUser = userService.uploadProfilePic(id, file);
+
+        return new ApiResponse<>(true, "Profile picture updated by admin", updatedUser);
+    }
+
+    @DeleteMapping("/users/{id}/profile-pic")
+    public ApiResponse<User> deleteUserProfilePic(@PathVariable Long id) {
+        log.info("Admin removing profile pic for userId={}", id);
+        return new ApiResponse<>(true, "Profile picture removed by admin", userService.deleteProfilePic(id));
     }
 }

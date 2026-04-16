@@ -10,6 +10,7 @@ public class AuthResponse {
     private Boolean profileCompleted;
     private Integer splitDays;
     private String role;
+    private String profilePicUrl;
 
     public AuthResponse() {
     }
@@ -21,7 +22,8 @@ public class AuthResponse {
                         String lastName,
                         Boolean profileCompleted,
                         Integer splitDays,
-                        String role) {
+                        String role,
+                        String profilePicUrl) {
         this.userId = userId;
         this.email = email;
         this.token = token;
@@ -30,6 +32,7 @@ public class AuthResponse {
         this.profileCompleted = profileCompleted;
         this.splitDays = splitDays;
         this.role = role;
+        this.profilePicUrl = profilePicUrl;
     }
 
     public Long getUserId() {
@@ -94,5 +97,13 @@ public class AuthResponse {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getProfilePicUrl() {
+        return profilePicUrl;
+    }
+
+    public void setProfilePicUrl(String profilePicUrl) {
+        this.profilePicUrl = profilePicUrl;
     }
 }
