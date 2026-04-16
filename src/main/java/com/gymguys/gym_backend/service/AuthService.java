@@ -42,7 +42,8 @@ public class AuthService {
                 savedUser.getLastName(),
                 savedUser.getProfileCompleted(),
                 savedUser.getSplitDays(),
-                savedUser.getRole()
+                savedUser.getRole(),
+                savedUser.getProfilePicUrl()
         );
     }
 
@@ -68,7 +69,8 @@ public class AuthService {
                 user.getLastName(),
                 user.getProfileCompleted(),
                 user.getSplitDays(),
-                user.getRole()
+                user.getRole(),
+                user.getProfilePicUrl()
         );
     }
 }

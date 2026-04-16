@@ -6,6 +6,7 @@ import com.gymguys.gym_backend.entity.User;
 import com.gymguys.gym_backend.service.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api/users")
@@ -18,7 +19,7 @@ public class UserController {
     }
 
     /**
-     * ✅ Update profile (only self)
+     * Update profile (only self)
      */
     @PutMapping("/{userId}")
     public ApiResponse<User> updateProfile(@PathVariable Long userId,
@@ -36,8 +37,41 @@ public class UserController {
         return new ApiResponse<>(true, "Profile updated successfully", updatedUser);
     }
 
+    @PostMapping("/{userId}/profile-pic")
+    public ApiResponse<User> uploadProfilePic(
+            @PathVariable Long userId,
+            @RequestParam("file") MultipartFile file,
+            Authentication authentication) {
+
+        User loggedInUser = userService.getByEmail(authentication.getName());
+
+        if (!loggedInUser.getId().equals(userId)) {
+            throw new RuntimeException("You can update only your own profile");
+        }
+
+        User updatedUser = userService.uploadProfilePic(userId, file);
+
+        return new ApiResponse<>(true, "Profile picture updated", updatedUser);
+    }
+
+    @DeleteMapping("/{userId}/profile-pic")
+    public ApiResponse<User> deleteProfilePic(
+            @PathVariable Long userId,
+            Authentication authentication) {
+
+        User loggedInUser = userService.getByEmail(authentication.getName());
+
+        if (!loggedInUser.getId().equals(userId)) {
+            throw new RuntimeException("You can update only your own profile");
+        }
+
+        User updatedUser = userService.deleteProfilePic(userId);
+
+        return new ApiResponse<>(true, "Profile picture removed", updatedUser);
+    }
+
     /**
-     * ✅ Get logged-in user profile
+     * Get logged-in user profile
      */
     @GetMapping("/me")
     public ApiResponse<User> getMyProfile(Authentication authentication) {

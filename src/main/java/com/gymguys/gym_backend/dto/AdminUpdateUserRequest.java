@@ -9,7 +9,6 @@ public class AdminUpdateUserRequest {
     private Double weight;
     private Integer splitDays;
     private Boolean profileCompleted;
-    private String profilePicUrl;
 
     public String getFirstName() { return firstName; }
     public void setFirstName(String firstName) { this.firstName = firstName; }
@@ -31,7 +30,4 @@ public class AdminUpdateUserRequest {
 
     public Boolean getProfileCompleted() { return profileCompleted; }
     public void setProfileCompleted(Boolean profileCompleted) { this.profileCompleted = profileCompleted; }
-
-    public String getProfilePicUrl() { return profilePicUrl; }
-    public void setProfilePicUrl(String profilePicUrl) { this.profilePicUrl = profilePicUrl; }
 }
